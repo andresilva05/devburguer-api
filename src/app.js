@@ -1,6 +1,7 @@
 import express from 'express'; // Importa o Express
 import routes from './routes.js'; // Importa suas rotas
 
+import './database';
 class App {
   constructor() {
     this.app = express();
@@ -23,4 +24,4 @@ class App {
   }
 }
 
-export default new App(); // Exporta uma instância da classe App
+export default new App().app; // Exporta uma instância da classe App

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "DevBurguer API.",
   "main": "src/server.js",
- "type": "module",
+  "type": "module",
   "scripts": {
     "dev": "nodemon",
     "lint": "eslint"
@@ -18,7 +18,8 @@
     "pg": "^8.13.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.4",
-    "sequelize-cli": "^6.6.2"
+    "sequelize-cli": "^6.6.2",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.12.0",
