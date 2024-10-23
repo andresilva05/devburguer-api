@@ -22,6 +22,9 @@
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
-    "no-console": "warn"
+    "no-console": "warn",
+    "class-methods-use-this": "off",
+    "camelcase": "off",
+    "no-param-reassign": "off"
   }
 }

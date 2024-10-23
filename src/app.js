@@ -1,13 +1,13 @@
 import express from 'express'; // Importa o Express
+import './database/index.js'; // Importa e inicializa a conexão com o banco de dados
 import routes from './routes.js'; // Importa suas rotas
 
-import './database';
 class App {
   constructor() {
-    this.app = express();
+    this.app = express(); // Inicializa o Express
 
-    this.middlewares();
-    this.routes();
+    this.middlewares(); // Configura os middlewares
+    this.routes(); // Configura as rotas
   }
 
   middlewares() {
@@ -20,7 +20,7 @@ class App {
 
   // Método para iniciar o servidor
   listen(port, callback) {
-    this.app.listen(port, callback);
+    this.app.listen(port, callback); // Inicia o servidor
   }
 }
 

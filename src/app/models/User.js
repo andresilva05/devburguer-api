@@ -1,38 +1,35 @@
-import { Model, DataTypes } from 'sequelize'; // Use DataTypes para acessar os tipos de dados
+import bcrypt from 'bcrypt';
+import Sequelize, { Model } from 'sequelize';
 
 class User extends Model {
-    static init(sequelize) {
-        super.init(
-            {
-                id: {
-                    type: DataTypes.INTEGER,
-                    primaryKey: true,
-                    autoIncrement: true,
-                },
-                name: {
-                    type: DataTypes.STRING,
-                    allowNull: false,
-                },
-                email: {
-                    type: DataTypes.STRING,
-                    allowNull: false,
-                    unique: true,
-                },
-                password_hash: {
-                    type: DataTypes.STRING,
-                    allowNull: false,
-                },
-                admin: {
-                    type: DataTypes.BOOLEAN,
-                    defaultValue: false,
-                },
-            },
-            {
-                sequelize,
-                tableName: 'users',
-            },
-        );
-    }
+  static init(sequelize) {
+    super.init(
+      {
+        name: Sequelize.STRING,
+        email: Sequelize.STRING,
+        password: Sequelize.VIRTUAL, // Corrigido: Sequelize.VIRTUAL (não VITUAL)
+        password_hash: Sequelize.STRING,
+        admin: Sequelize.BOOLEAN,
+      },
+      {
+        sequelize,
+      }
+    );
+
+    // Hook para hash da senha antes de salvar
+    this.addHook('beforeSave', async (user) => {
+      if (user.password) {
+        user.password_hash = await bcrypt.hash(user.password, 10);
+      }
+    });
+
+    return this;
+  }
+
+ async checkPassword(password){
+   return bcrypt.compare(password, this.password_hash);
+  }
+
 }
 
 export default User;

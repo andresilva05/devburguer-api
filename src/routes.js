@@ -1,26 +1,21 @@
-import { Router } from 'express'; // Importa o Router do Express
-import User from './app/models/User.js'; // Importa o modelo User
+// Importa o Router do Express, que é uma funcionalidade para definir rotas na aplicação.
+import { Router } from 'express';
 
-import { v4 } from 'uuid';
+// Importa o UserController, onde está o método para criar um novo usuário.
+import SessionController from './app/controllers/SessionController.js';
+import UserController from './app/controllers/UserController.js';
 
+// Cria uma nova instância do Router, que será usada para definir as rotas da aplicação.
 const routes = new Router();
 
-// Rota para criar um novo usuário
-routes.post('/', async (request, response) => {
-  try {
-    // Cria um novo usuário sem atribuir ID manualmente
-    const user = await User.create({
-      id: v4(),
-      name: 'Augustinho',
-      email: 'augustinho@email.com',
-      password_hash: '123456',
-    });
-    return response.status(201).json(user); // Retorna o usuário criado
-  } catch (error) {
-    console.error('Erro ao criar usuário:', error);
-    return response.status(500).json({ error: 'Erro ao criar usuário' });
-  }
-});
+// Define uma rota POST para o endpoint '/users'. Quando o cliente fizer uma requisição POST para '/users',
+// o método 'store' do UserController será chamado. Esse método, geralmente, será responsável por criar
+// um novo usuário no sistema.
+routes.post('/users', UserController.store);
 
-// Exporta o roteador
+routes.post('/session', SessionController.store);
+
+
+// Exporta o objeto 'routes' para que possa ser utilizado em outros arquivos, como no arquivo principal da aplicação.
+// Esse 'routes' contém todas as rotas definidas até agora.
 export default routes;
