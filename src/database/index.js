@@ -1,8 +1,9 @@
 import Sequelize from 'sequelize';
+import Product from '../app/models/Product.js';
 import User from '../app/models/user.js';
 import configDatabase from '../config/database.cjs'; // Certifique-se de que a extensão está correta
 
-const models = [User];
+const models = [User, Product];
 
 class Database {
   constructor() {
