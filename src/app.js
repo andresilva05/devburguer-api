@@ -17,7 +17,14 @@ class App {
 
   middlewares() {
     this.app.use(express.json()); // Configura o middleware para JSON
-    this.app.use('/product-file', express.static(resolve(__dirname, '..', 'uploads'))); // Corrigido
+    this.app.use(
+      '/product-file',
+      express.static(resolve(__dirname, '..', 'uploads')),
+    ); // Middleware para arquivos de produto
+    this.app.use(
+      '/category-file',
+      express.static(resolve(__dirname, '..', 'uploads')),
+    ); // Middleware para arquivos de categoria
   }
 
   routes() {
