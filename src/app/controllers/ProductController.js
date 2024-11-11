@@ -1,42 +1,120 @@
-import * as Yup from 'yup'; // Importa a biblioteca Yup para validação de dados
-import Product from '../models/Product.js'; // Importa o modelo Product (ajuste o caminho conforme necessário)
+import * as Yup from 'yup';
+import Category from '../models/Category.js';
+import Product from '../models/Product.js';
+import User from '../models/user.js';
 
-// Define a classe ProductController
 class ProductController {
-    // Método assíncrono que será responsável por criar um novo produto
-    async store(request, response) {
-        // Cria um esquema de validação para os dados do produto
-        const schema = Yup.object({
-            name: Yup.string().required(),    // 'name' deve ser uma string e é obrigatório
-            price: Yup.number().required(),   // 'price' deve ser um número e é obrigatório
-            category: Yup.string().required() // 'category' deve ser uma string e é obrigatório
-        });
+  async store(request, response) {
+    const schema = Yup.object({
+      name: Yup.string().required(),
+      price: Yup.number().required(),
+      category_id: Yup.number().required(),
+      offer: Yup.boolean(),
+    });
 
-        try {
-            // Valida o corpo da requisição usando o esquema definido
-            schema.validateSync(request.body, { abortEarly: false });
-        } catch (err) {
-            // Em caso de erro na validação, retorna uma resposta com status 400 (Bad Request)
-            return response.status(400).json({ error: err.errors });
-        }
-
-        const { filename: path } = request.file; // Obtém o nome do arquivo enviado
-        const { name, price, category } = request.body; // Desestrutura os dados do corpo da requisição
-
-        // Cria o produto no banco de dados
-        const product = await Product.create({ name, price, category, path });
-
-        // Se a validação for bem-sucedida, retorna uma resposta com status 201 (Created)
-        return response.status(201).json({ product });
+    try {
+      await schema.validate(request.body, { abortEarly: false });
+    } catch (err) {
+      return response.status(400).json({ error: err.errors });
     }
 
-    async index(request, response) {
-        const products = await Product.findAll();
-        
-        // Retorna a lista de produtos como resposta
-        return response.json(products);
+    const user = await User.findByPk(request.userId);
+    if (!user) {
+      return response.status(404).json({ error: 'User not found' });
     }
+
+    const { admin: isAdmin } = user;
+    if (!isAdmin) {
+      return response
+        .status(401)
+        .json({ error: 'User is not an administrator' });
+    }
+
+    const { filename: path } = request.file || {};
+    const { name, price, category_id, offer } = request.body;
+
+    // Verificar se a categoria existe antes de criar o produto
+    const categoryExists = await Category.findByPk(category_id);
+    if (!categoryExists) {
+      return response.status(400).json({ error: 'Category not found' });
+    }
+
+    const product = await Product.create({
+      name,
+      price,
+      category_id,
+      path,
+      offer,
+    });
+
+    return response.status(201).json(product);
+  }
+
+  async update(request, response) {
+    const schema = Yup.object({
+      name: Yup.string(),
+      price: Yup.number(),
+      category_id: Yup.number(),
+      offer: Yup.boolean(),
+    });
+
+    try {
+      await schema.validate(request.body, { abortEarly: false });
+    } catch (err) {
+      return response.status(400).json({ error: err.errors });
+    }
+
+    const user = await User.findByPk(request.userId);
+    if (!user) {
+      return response.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    const { admin: isAdmin } = user;
+    if (!isAdmin) {
+      return response
+        .status(401)
+        .json({ error: 'User is not an administrator' });
+    }
+
+    const { id } = request.params;
+    const findProduct = await Product.findByPk(id);
+    if (!findProduct) {
+      return response
+        .status(400)
+        .json({ error: 'Make sure product ID is correct' });
+    }
+
+    const { filename: path } = request.file || {};
+    const { name, price, category_id, offer } = request.body;
+
+    // Verificar se a categoria existe
+    const categoryExists = await Category.findByPk(category_id);
+    if (category_id && !categoryExists) {
+      return response.status(400).json({ error: 'Category not found' });
+    }
+
+    await Product.update(
+      { name, price, category_id, offer, path },
+      { where: { id } },
+    );
+
+    const updatedProduct = await Product.findByPk(id);
+    return response.status(200).json(updatedProduct);
+  }
+
+  async index(request, response) {
+    const products = await Product.findAll({
+      include: [
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['name', 'id'],
+        },
+      ],
+    });
+
+    return response.json(products);
+  }
 }
 
-// Exporta uma nova instância de ProductController para que possa ser usada em outros módulos
 export default new ProductController();
