@@ -1,25 +1,30 @@
-import Sequelize, { Model } from "sequelize"; // Importa Sequelize e Model da biblioteca sequelize.
+import Sequelize, { Model } from "sequelize";
 
 class Product extends Model {
-    static init(sequelize) { // Método init deve ser estático e receber a instância do sequelize.
+    static init(sequelize) {
         super.init(
             {
-                name: Sequelize.STRING, // Define o campo 'name' como uma string.
-                price: Sequelize.DECIMAL(10, 2), // Define o campo 'price' como um decimal com até 10 dígitos, sendo 2 após a vírgula.
-                category: Sequelize.STRING, // Define o campo 'category' como uma string.
-                path: Sequelize.STRING, // Define o campo 'path' como uma string.
+                name: Sequelize.STRING,
+                price: Sequelize.DECIMAL(10, 2),
+                path: Sequelize.STRING,
+                offer: Sequelize.BOOLEAN,
                 url: {
-                    type: Sequelize.VIRTUAL, // Define o campo 'url' como virtual.
+                    type: Sequelize.VIRTUAL,
                     get() {
-                        return `http://localhost:3001/product-file/${this.path}`; // Retorna a URL completa.
+                        return `http://localhost:3001/product-file/${this.path}`;
                     }
                 }
             },
             {
-                sequelize, // Passa a instância do sequelize para a superclasse.
+                sequelize,
             }
         );
+        return this;
+    }
+
+    static associate(models) {
+        this.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' });
     }
 }
 
-export default Product; // Exporta a classe Product para ser utilizada em outros módulos.
+export default Product;
