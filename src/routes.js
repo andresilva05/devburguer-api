@@ -6,10 +6,12 @@ import multer from 'multer';
 import multerConfig from './config/multer.js';
 
 // Importa os controladores (controllers) para manipular as rotas específicas
+import CategoryController from './app/controllers/CategoryController.js';
+import OrderController from './app/controllers/OrderController.js';
 import ProductController from './app/controllers/ProductController.js'; // Controller para produtos
 import SessionController from './app/controllers/SessionController.js'; // Controller para sessões (autenticação, por exemplo)
 import UserController from './app/controllers/UserController.js'; // Controller para usuários
-
+import authMiddleware from './app/middlewares/auth.js';
 // Cria uma nova instância de Router para definir as rotas da aplicação
 const routes = new Router();
 
@@ -24,6 +26,8 @@ routes.post('/users', UserController.store);
 // O método 'store' será responsável por criar uma nova sessão, como uma autenticação do usuário
 routes.post('/session', SessionController.store);
 
+routes.use(authMiddleware);
+
 // Define uma rota POST para o endpoint '/products' que chama o método 'store' do ProductController
 // O 'upload.single('file')' indica que esta rota aceitará um único arquivo enviado com o nome 'file'
 routes.post('/products', upload.single('file'), ProductController.store);
@@ -31,12 +35,29 @@ routes.post('/products', upload.single('file'), ProductController.store);
 // Define uma rota GET para o endpoint '/products' que chama o método 'index' do ProductController
 routes.get('/products', ProductController.index);
 
+routes.put('/products/:id', upload.single('file'), ProductController.update);
+
+
+routes.post('/categories', upload.single('file'), CategoryController.store);
+routes.get('/categories', CategoryController.index);
+routes.put('/categories/:id', upload.single('file'), CategoryController.update);
+
+routes.post('/orders', OrderController.store);
+routes.get('/orders', OrderController.index);
+routes.put('/orders/:id', OrderController.update);
+
 // Exporta o objeto 'routes' para ser utilizado em outros arquivos, como o principal da aplicação
 // Esse 'routes' contém todas as rotas definidas para a aplicação
 export default routes;
 
+// request -> middleware -> controller -> model -> database -> response
 
-
+// Request: Cliente faz uma requisição →
+// Middleware: A requisição passa por validações e autenticações →
+// Controller: Recebe a requisição, coordena as ações e chama o model →
+// Model: Interage com o banco de dados para obter ou manipular os dados →
+// Database: Retorna os dados ao model →
+// Response: Controller responde ao cliente com o status e dados finais.
 
 // Explicação detalhada de cada parte:
 // import { Router } from 'express';
