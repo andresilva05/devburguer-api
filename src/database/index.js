@@ -1,18 +1,19 @@
-import { Sequelize } from "sequelize";
 
-import User from "../app/controllers/models/User.js";
-import configDatabase from '../config/database.js';
+import Sequelize from 'sequelize';
+import configDatacase from '../config/database';
+import User from '../app/models/User';
 
 const models = [User];
 
 class Database {
-    constructor() {
-        this.init();
-    }
-    init() {
-        this.connection = new Sequelize(configDatabase);
-        models.map((model) => model.init(this.connection))
-    }
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    this.connection = new Sequelize(configDatacase);
+    models.map((model) => model.init(this.connection));
+  }
 }
 
-export default Database();
+export default new Database();
