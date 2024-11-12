@@ -30,12 +30,11 @@ module.exports = {
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), // Define o valor padrão como o timestamp atual
+    
       },
       updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), // Remove ON UPDATE, padrão apenas
       }
     });
   },
