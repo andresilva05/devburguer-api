@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import Category from '../models/Category.js';
-import User from '../models/user.js';
+import User from '../models/User.js';
 
 class CategoryController {
   async store(request, response) {
