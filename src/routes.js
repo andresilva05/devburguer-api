@@ -11,7 +11,7 @@ import OrderController from './app/controllers/OrderController.js';
 import ProductController from './app/controllers/ProductController.js'; // Controller para produtos
 import SessionController from './app/controllers/SessionController.js'; // Controller para sessões (autenticação, por exemplo)
 import UserController from './app/controllers/UserController.js'; // Controller para usuários
-import authMiddleware from './app/middlewares/auth.js';
+import authMiddleware from './app/middlewares/auth.js'; 
 // Cria uma nova instância de Router para definir as rotas da aplicação
 const routes = new Router();
 
