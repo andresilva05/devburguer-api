@@ -892,7 +892,7 @@ detect-libc@^2.0.0:
     devburguer-api "file:"
     express "^4.21.1"
     jsonwebtoken "^9.0.2"
-    mongoose "^8.8.1"
+    mongoose "^8.8.2"
     multer "^1.4.5-lts.1"
     pg "^8.13.0"
     pg-hstore "^2.3.4"
@@ -2333,10 +2333,10 @@ mongodb@~6.10.0:
     bson "^6.7.0"
     mongodb-connection-string-url "^3.0.0"
 
-mongoose@^8.8.1:
-  version "8.8.1"
-  resolved "https://registry.npmjs.org/mongoose/-/mongoose-8.8.1.tgz"
-  integrity sha512-l7DgeY1szT98+EKU8GYnga5WnyatAu+kOQ2VlVX1Mxif6A0Umt0YkSiksCiyGxzx8SPhGe9a53ND1GD4yVDrPA==
+mongoose@^8.8.2:
+  version "8.8.2"
+  resolved "https://registry.npmjs.org/mongoose/-/mongoose-8.8.2.tgz"
+  integrity sha512-jCTSqDANfRzk909v4YoZQi7jlGRB2MTvgG+spVBc/BA4tOs1oWJr//V6yYujqNq9UybpOtsSfBqxI0dSOEFJHQ==
   dependencies:
     bson "^6.7.0"
     kareem "2.6.3"

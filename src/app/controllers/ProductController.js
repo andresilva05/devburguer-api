@@ -20,14 +20,14 @@ class ProductController {
 
     const user = await User.findByPk(request.userId);
     if (!user) {
-      return response.status(404).json({ error: 'User not found' });
+      return response.status(404).json({ error: 'Usuário não encontrado' });
     }
 
     const { admin: isAdmin } = user;
     if (!isAdmin) {
       return response
         .status(401)
-        .json({ error: 'User is not an administrator' });
+        .json({ error: 'O Usuário não é um administrador' });
     }
 
     const { filename: path } = request.file || {};
