@@ -22,8 +22,15 @@ class SessionController {
         const { email, password } = request.body;
         const user = await User.findOne({ where: { email } });
 
-        if (!user || !(await user.checkPassword(password))) {
+        if (!user) {
             return emailOrPasswordIncorrect();
+        }
+
+        const checkPassword = await user.checkPassword(password)
+
+        if(!checkPassword){
+            return emailOrPasswordIncorrect();
+
         }
 
         return response.status(201).json({
