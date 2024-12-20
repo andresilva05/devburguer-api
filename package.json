@@ -16,6 +16,7 @@
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "devburguer-api": "file:",
+    "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.2",
@@ -24,6 +25,7 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.5",
     "sequelize-cli": "^6.6.2",
+    "stripe": "^17.4.0",
     "uuid": "^11.0.3",
     "yup": "^1.4.0"
   },
