@@ -1,14 +1,15 @@
+require('dotenv').config(); // Certifique-se de carregar as variáveis de ambiente
+
 module.exports = {
-  dialect: 'postgres', // ou 'mysql' se estiver usando MySQL
-  host: 'localhost',
-  port: 5432, // a porta correta para o seu banco de dados
-  username: 'postgres', // ou seu nome de usuário
-  password: 'postgres', // sua senha
-  database: 'devburguer', // o nome do seu banco de dados
+  dialect: process.env.DB_DIALECT || 'postgres', // Banco padrão 'postgres'
+  host: process.env.DB_HOST || 'localhost',
+  port: process.env.DB_PORT || 5432,
+  username: process.env.DB_USERNAME || 'postgres',
+  password: process.env.DB_PASSWORD || 'postgres',
+  database: process.env.DB_NAME || 'devburguer',
   define: {
     timestamps: true,
     underscored: true,
     underscoredAll: true,
   },
-  
 };
