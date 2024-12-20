@@ -11,7 +11,8 @@ import OrderController from './app/controllers/OrderController.js';
 import ProductController from './app/controllers/ProductController.js'; // Controller para produtos
 import SessionController from './app/controllers/SessionController.js'; // Controller para sessões (autenticação, por exemplo)
 import UserController from './app/controllers/UserController.js'; // Controller para usuários
-import authMiddleware from './app/middlewares/auth.js'; 
+import authMiddleware from './app/middlewares/auth.js';
+import CreatePaymentIntentController from './app/controllers/stripe/CreatePaymentIntentController';
 // Cria uma nova instância de Router para definir as rotas da aplicação
 const routes = new Router();
 
@@ -37,7 +38,6 @@ routes.get('/products', ProductController.index);
 
 routes.put('/products/:id', upload.single('file'), ProductController.update);
 
-
 routes.post('/categories', upload.single('file'), CategoryController.store);
 routes.get('/categories', CategoryController.index);
 routes.put('/categories/:id', upload.single('file'), CategoryController.update);
@@ -45,6 +45,8 @@ routes.put('/categories/:id', upload.single('file'), CategoryController.update);
 routes.post('/orders', OrderController.store);
 routes.get('/orders', OrderController.index);
 routes.put('/orders/:id', OrderController.update);
+
+routes.post('/create-payment-intent', CreatePaymentIntentController.store);
 
 // Exporta o objeto 'routes' para ser utilizado em outros arquivos, como o principal da aplicação
 // Esse 'routes' contém todas as rotas definidas para a aplicação
