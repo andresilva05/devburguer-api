@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon",
-    "lint": "eslint"
+    "lint": "eslint",
+    "vercel-build": "npx prisma migrate deploy"
   },
   "author": {
     "name": "André Silva",
