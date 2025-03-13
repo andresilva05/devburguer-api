@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "lint": "eslint",
-    "vercel-build": "npx prisma migrate deploy"
+    "vercel-build": "echo 'Build concluído'"
   },
   "author": {
     "name": "André Silva",
